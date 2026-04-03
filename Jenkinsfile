@@ -71,7 +71,7 @@ pipeline {
                                 ], file(credentialId: 'clasesdevops-pem', variable: 'AWS_KEY_FILE')]) {
 					sh """
 					terraform destroy -auto-approve -var="ruta_private_key=${AWS_KEY_FILE}"
-					"""
+				}	"""
 			}
 		}
 	}
