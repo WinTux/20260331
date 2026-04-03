@@ -52,8 +52,35 @@ pipeline {
                                         terraform plan -var="ruta_private_key=${AWS_KEY_FILE}" -out=tfplan
                                         terraform apply -auto-approve tfplan
                                         '''
-
+				}
 			}
 		}
-	}	
+		stage('Deploy con Ansible') {
+			steps {
+				sh """
+				ansible-playbook -i inventory main.yml
+				"""
+			}
+		}
+		stage('Terraform Destroy') {
+			steps {
+				input message: "Deseas destruir la infraestructura?"
+				withCredentials([[
+                                $class: 'AmazonWebServicesCredentialsBinding',
+                                credentialsId: 'aws-credentials'
+                                ], file(credentialId: 'clasesdevops-pem', variable: 'AWS_KEY_FILE')]) {
+					sh """
+					terraform destroy -auto-approve -var="ruta_private_key=${AWS_KEY_FILE}"
+					"""
+			}
+		}
+	}
+	post {
+		success {
+			echo "Pipeline completado correctamente."
+		}
+		failure {
+			echo "Error en el pipeline."
+		}
+	}
 }
