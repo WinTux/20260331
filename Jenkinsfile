@@ -46,7 +46,7 @@ pipeline {
 				withCredentials([[
                                 $class: 'AmazonWebServicesCredentialsBinding',
                                 credentialsId: 'aws-credentials'
-                                ], file(credentialId: 'clasesdevops-pem', variable: 'AWS_KEY_FILE')]) {
+                                ], file(credentialsId: 'clasesdevops-pem', variable: 'AWS_KEY_FILE')]) {
                                         sh '''
                                         terraform init
 					terraform validate
@@ -69,7 +69,7 @@ pipeline {
 				withCredentials([[
                                 $class: 'AmazonWebServicesCredentialsBinding',
                                 credentialsId: 'aws-credentials'
-                                ], file(credentialId: 'clasesdevops-pem', variable: 'AWS_KEY_FILE')]) {
+                                ], file(credentialsId: 'clasesdevops-pem', variable: 'AWS_KEY_FILE')]) {
 					sh """
 					terraform destroy -auto-approve -var="ruta_private_key=${AWS_KEY_FILE}"
 					"""
