@@ -16,12 +16,12 @@ pipeline {
 		}
 		stage('Compilación & pruebas') {
 			steps {
-				#dir('ProySpring') {
+				//dir('ProySpring') {
 					sh '''
 					./mvnw clean package -DskipTests=false
 					mv target/ejemplo*.jar target/ProySpring.jar
 					'''
-				#}
+				//}
 			}
 			post {
 				success {
