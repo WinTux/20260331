@@ -2,6 +2,7 @@ pipeline {
 	agent any
 	tools {
 		terraform 'Terraform_1.9'
+		jdk 'jdk25'
 	}
 	environment {
 		APP_NAME = "ProySpring"
